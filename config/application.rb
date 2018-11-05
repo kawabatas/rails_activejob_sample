@@ -15,5 +15,11 @@ module RailsActivejobSample
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # stackdriver
+    config.google_cloud.use_error_reporting = Rails.env.production?
+    config.google_cloud.use_debugger = Rails.env.production?
+    config.google_cloud.use_logging = Rails.env.production?
+    config.google_cloud.use_trace = Rails.env.production?
   end
 end

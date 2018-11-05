@@ -1,0 +1,9 @@
+entrypoint: bundle exec rackup --port $PORT
+env: flex
+runtime: ruby
+manual_scaling:
+  instances: 1
+skip_files:
+- tmp/*
+- log/*
+- vendor/bundle/*
