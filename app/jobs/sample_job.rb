@@ -1,8 +1,8 @@
 class SampleJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform(params)
     # Do something later
-    p "===== SampleJob performed."
+    Rails.logger.info("===== SampleJob performed. #{params.inspect}")
   end
 end
