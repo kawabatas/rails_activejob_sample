@@ -38,7 +38,3 @@ Rails.application.config.active_job.queue_adapter = CloudTasksAdapter.new(
   project: ENV['PROJECT'],
   location: ENV['LOCATION']
 )
-
-# require 'active_job'
-
-# ActiveJob::QueueAdapters::GoogleCloudTasksAdapter = ActiveJobGoogleCloudTasksAdapter
