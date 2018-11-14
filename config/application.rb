@@ -1,6 +1,7 @@
 require_relative 'boot'
 
 require 'rails/all'
+require './lib/activejob-google_cloud_tasks/adapter'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -21,5 +22,10 @@ module RailsActivejobSample
     config.google_cloud.use_debugger = Rails.env.production?
     config.google_cloud.use_logging = Rails.env.production?
     config.google_cloud.use_trace = Rails.env.production?
+
+    config.active_job.queue_adapter = Activejob::GoogleCloudTasks::Adapter.new(
+      project: ENV['PROJECT'],
+      location: ENV['LOCATION']
+    )
   end
 end

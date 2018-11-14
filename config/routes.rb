@@ -1,8 +1,9 @@
+require './lib/activejob-google_cloud_tasks/router'
+
 Rails.application.routes.draw do
   root 'welcome#index'
 
   get '/welcome', to: 'welcome#index'
 
-  post '/activejobs/:job/enqueue', to: 'activejobs#enqueue'
-  post '/activejobs/:job/execute', to: 'activejobs#execute'
+  mount Activejob::GoogleCloudTasks::Router, at: '/activejobs'
 end
