@@ -15,35 +15,27 @@ module Activejob
 
           params = Hash[URI::decode_www_form(URI.parse(env['REQUEST_URI']).query)].symbolize_keys
           job = params[:job]
-          args = params.except(:job)
+          base_path = env['REQUEST_PATH'].chomp(env['PATH_INFO'])
+          args = params.except(:job).merge({base_path: base_path})
 
           Rails.logger.info("========== params: #{params}")
 
-          if env['PATH_INFO'].match(/^\/enqueue/)
-            enqueue(job, args)
-          elsif env['PATH_INFO'].match(/^\/execute/)
-            execute(job, args)
+          case env['PATH_INFO']
+          when /^\/enqueue/
+            Rails.logger.info("===== enqueue !!! job: #{job}=====")
+            job_performer {
+              klass(job).perform_later(args)
+              # klass.set(wait_until: Date.tomorrow.noon).perform_later(args)
+            }
+          when /^\/execute/
+            Rails.logger.info("===== execute !!! job: #{job} =====")
+            job_performer {
+              klass(job).perform_now(args)
+            }
           else
             [404, {}, ['not found']]
           end
 
-        end
-
-        def enqueue(job, args)
-          Rails.logger.info("===== enqueue !!! job: #{job}=====")
-          job_performer {
-            klass = klass(job)
-            klass.perform_later(args)
-            # klass.set(wait_until: Date.tomorrow.noon).perform_later(args)
-          }
-        end
-
-        def execute(job, args)
-          Rails.logger.info("===== execute !!! job: #{job} =====")
-          job_performer {
-            klass = klass(job)
-            klass.perform_now(args)
-          }
         end
 
         private
