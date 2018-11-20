@@ -11,7 +11,7 @@ module Activejob
 
       def enqueue(job, attributes = {})
         formatted_parent = Google::Cloud::Tasks::V2beta3::CloudTasksClient.queue_path(@project, @location, job.queue_name)
-        relative_uri = "#{job.arguments.first[:base_path]}/execute?job=#{job.class.to_s}&#{job.arguments.to_param}"
+        relative_uri = "#{job.arguments.first[:base_path]}/execute?#{job.arguments.to_param}"
 
         task = {
           app_engine_http_request: {
@@ -20,8 +20,7 @@ module Activejob
           }
         }
         task[:schedule_time] = Google::Protobuf::Timestamp.new(seconds: attributes[:scheduled_at].to_i) if attributes.has_key?(:scheduled_at)
-
-        create_task = @cloud_tasks_client.create_task(formatted_parent, task)
+        @cloud_tasks_client.create_task(formatted_parent, task)
       end
 
       def enqueue_at(job, scheduled_at)
