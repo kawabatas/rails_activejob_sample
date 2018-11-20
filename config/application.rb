@@ -26,7 +26,6 @@ module RailsActivejobSample
     config.active_job.queue_adapter = Activejob::GoogleCloudTasks::Adapter.new(
       project: ENV['PROJECT'],
       location: ENV['LOCATION'],
-      logger: Rails.logger
     )
   end
 end
