@@ -13,6 +13,7 @@ class WelcomeController < ApplicationController
   end
 
   def multi_sample_job
+    MultiSampleJob.perform_later({name: 'multi bob', email: 'multibob@example.com'})
     head :ok
   end
 end
