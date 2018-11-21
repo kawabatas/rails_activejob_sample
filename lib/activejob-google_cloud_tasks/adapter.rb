@@ -1,4 +1,5 @@
 require 'google/cloud/tasks/v2beta3'
+require './lib/activejob-google_cloud_tasks/config'
 
 module Activejob
   module GoogleCloudTasks
@@ -11,7 +12,7 @@ module Activejob
 
       def enqueue(job, attributes = {})
         formatted_parent = Google::Cloud::Tasks::V2beta3::CloudTasksClient.queue_path(@project, @location, job.queue_name)
-        relative_uri = "#{job.arguments.first[:base_path]}/execute?#{job.arguments.to_param}"
+        relative_uri = "#{Activejob::GoogleCloudTasks::Config.path}/perform?job=#{job.class.to_s}&#{job.arguments.to_param}"
 
         task = {
           app_engine_http_request: {
