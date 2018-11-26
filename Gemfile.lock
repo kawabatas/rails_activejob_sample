@@ -27,7 +27,7 @@ GEM
     activejob (5.2.1)
       activesupport (= 5.2.1)
       globalid (>= 0.3.6)
-    activejob-google_cloud_tasks (0.1.0)
+    activejob-google_cloud_tasks (0.1.1)
       activejob
       activesupport
       google-cloud-tasks (~> 0.2.6)
@@ -281,7 +281,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activejob-google_cloud_tasks
+  activejob-google_cloud_tasks (>= 0.1.1)
   appengine
   bootsnap (>= 1.1.0)
   byebug
