@@ -21,5 +21,10 @@ module RailsActivejobSample
     config.google_cloud.use_debugger = Rails.env.production?
     config.google_cloud.use_logging = Rails.env.production?
     config.google_cloud.use_trace = Rails.env.production?
+
+    config.active_job.queue_adapter = Activejob::GoogleCloudTasks::Adapter.new(
+      project: ENV['GOOGLE_CLOUD_TASKS_PROJECT'],
+      location: ENV['GOOGLE_CLOUD_TASKS_LOCATION'],
+    )
   end
 end
